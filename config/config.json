@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "local_user",
+    "password": "Pass!1234",
+    "database": "vv_identity_dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "local_user",
+    "password": "Pass!1234",
+    "database": "vv_identity_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "local_user",
+    "password": "Pass!1234",
+    "database": "vv_identity",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
