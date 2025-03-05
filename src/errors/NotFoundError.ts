@@ -1,19 +1,20 @@
 import { CustomError } from "./CustomError";
 // import logger from "../utils/logger";
 
-const message = "Not Found";
 
 export class NotFoundError extends CustomError {
   statusCode = 404;
+  message = "Not Found";
 
-  constructor() {
+  constructor(message = "Not Found") {
     super(message);
+    this.message = message;
 
     Object.setPrototypeOf(this, NotFoundError.prototype);
   }
 
   serializeErrors() {
     // logger.error(message)
-    return [{ message: message }];
+    return [{ message: this.message }];
   }
 }

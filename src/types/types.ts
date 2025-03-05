@@ -30,3 +30,23 @@ export enum ActivityTypeEnum {
   PROFILE_UPDATE = "profile_update",
   ACCOUNT_DELETION = "account_deletion",
 }
+
+export interface IRefreshToken {
+  id: string; // Unique ID (UUID)
+  user_id: string; // Reference to the user
+  token: string; // The actual refresh token
+  expires_at: Date; // Expiry date
+  status: RefreshTokenStatusEnum; // Status of the token
+  device_id?: string; // Unique device identifier
+  device_name?: string; // Name of the device
+  device_type?: string;//"mobile" | "desktop" | "tablet"; // Type of device
+  ip_address?: string; // IP address of the user
+  user_agent?: string; // User agent string (browser, OS details)
+  created_at: Date;
+}
+
+export enum RefreshTokenStatusEnum {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+  REVOKED = "revoked",
+}

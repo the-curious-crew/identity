@@ -1,9 +1,11 @@
 import { InternalServerError } from "../errors/InternalServerError";
 import { userRepository } from "../repositories/mongodb/user.mongo.repository";
-import { IUser } from "../types/types";
+import { IUser, RefreshTokenStatusEnum } from "../types/types";
 import { sendOTPEmail, sendOTPPhone } from "../lib/otp";
 import { authenticator } from "otplib";
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
+import { NotFoundError } from "../errors/NotFoundError";
+import { BadRequestError } from "../errors/BadRequestError";
 
 class UserService {
   private repository: typeof userRepository;
@@ -37,23 +39,31 @@ class UserService {
       const user = await this.repository.getByEmailOrPhone(emailOrPhone);
 
       if (!user) {
-        throw new Error("User not found");
+        throw new NotFoundError();
       }
 
       // Assuming you have a method to verify the OTP
       const isValidOTP = await this.verifyOTP(user, otp);
 
       if (!isValidOTP) {
-        throw new Error("Invalid OTP");
+        throw new BadRequestError("Invalid OTP");
       }
 
-      const accessToken = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "1d",
-      });
+      const accessToken = jwt.sign(
+        { id: user.id },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+          expiresIn: "1d",
+        }
+      );
 
-      const refreshToken = jwt.sign({ id: user.id }, process.env.REFRESH_TOKEN_SECRET, {
-        expiresIn: "30d",
-      });
+      const refreshToken = jwt.sign(
+        { id: user.id },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+          expiresIn: "30d",
+        }
+      );
 
       return { user, accessToken, refreshToken };
     } catch (error) {
