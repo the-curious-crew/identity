@@ -117,19 +117,17 @@ class UserService {
   }
 
   async authenticate(token: string): Promise<IUser> {
-    try {
-      const decoded = jwt.verify(
-        token,
-        process.env.JWT_SECRET as string
-      ) as IAccessTokenPayload;
-      const user = await this.repository.getById(decoded.user_id);
-      if (!user) {
-        throw new Error("User not found");
-      }
-      return user;
-    } catch (error) {
-      throw new Error("Invalid token");
+    const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
+
+    const decoded = jwt.verify(
+      token,
+      ACCESS_TOKEN_SECRET as string
+    ) as IAccessTokenPayload;
+    const user = await this.repository.getById(decoded.user_id);
+    if (!user) {
+      throw new Error("User not found");
     }
+    return user;
   }
 
   private generateOtp = async (
