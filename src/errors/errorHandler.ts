@@ -1,8 +1,7 @@
 import { ErrorRequestHandler } from "express";
 import { CustomError } from "./CustomError";
-import { IAPIResponse } from "@shared/types/lib/types";
 
-export const errorHandler: ErrorRequestHandler<unknown, IAPIResponse> = (
+export const errorHandler: ErrorRequestHandler<unknown> = (
   err,
   req,
   res,

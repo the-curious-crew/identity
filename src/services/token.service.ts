@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { refreshTokenService } from "./refreshToken.service";
-import { RefreshTokenStatusEnum } from "../types/types";
+import { IAccessTokenPayload, IDevice, IRefreshTokenPayload, RefreshTokenStatusEnum } from "../types/types";
 import * as jwt from "jsonwebtoken";
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
@@ -11,30 +11,11 @@ const ACCESS_TOKEN_EXPIRY: string = process.env.ACCESS_TOKEN_EXPIRY || "15m";
 const REFRESH_TOKEN_EXPIRY_DAYS =
   Number(process.env.REFRESH_TOKEN_EXPIRY_DAYS) || 7; // Refresh token validity
 
-interface TokenPayload {
-  user_id: string;
-  device_id: string;
-}
-
-interface IRefreshTokenPayload {
-  user_id: string;
-  device_id: string;
-  token_id: string;
-}
-
-interface IDevice {
-  device_id: string;
-  device_type: string;
-  ip_address: string;
-  user_agent: string;
-  device_name: string;
-}
-
 // Function to generate tokens
 export async function generateTokens(user_id: string, device: IDevice) {
   const { device_id, device_type, ip_address, user_agent } = device || {};
   // Create payload for the access token
-  const accessTokenPayload: TokenPayload = { user_id, device_id };
+  const accessTokenPayload: IAccessTokenPayload = { user_id, device_id };
   const accessToken = jwt.sign(accessTokenPayload, ACCESS_TOKEN_SECRET, {
     expiresIn: ACCESS_TOKEN_EXPIRY as any, //ms.StringValue,
   });
@@ -115,3 +96,6 @@ export async function refreshAccessToken(
 const getDeviceName = (device_name: string) => {
   return device_name || "Unknown Device";
 };
+
+
+

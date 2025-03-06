@@ -4,7 +4,7 @@ import { refreshTokenRepository } from "../repositories/mongodb/refreshToken.mon
 import { IRefreshToken } from "../types/types";
 
 class RefreshTokenService {
-  private repository: IBaseRepository<string>;
+  private repository: typeof refreshTokenRepository;
 
   constructor(repository: typeof refreshTokenRepository) {
     this.repository = repository;

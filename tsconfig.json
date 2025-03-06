@@ -1,6 +1,22 @@
 {
-  "extends": "@shared/typescript-config/expressjs.json",
   "compilerOptions": {
+    "preserveConstEnums": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "target": "es6",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "lib": [
+      "es2015"
+    ],
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "removeComments": false,
     "rootDir": "./src/",
     "outDir": ".build",
 

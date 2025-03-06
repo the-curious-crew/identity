@@ -2,7 +2,17 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../../lib/sequelize.utils";
 import { IUser } from "../../types/types";
 
-interface UserCreationAttributes extends Optional<IUser, "id" | "email" | "phone" | "display_name" | "picture" | "provider_data" | "last_login"> {}
+interface UserCreationAttributes
+  extends Optional<
+    IUser,
+    | "id"
+    | "email"
+    | "phone"
+    | "display_name"
+    | "picture"
+    | "provider_data"
+    | "last_login"
+  > {}
 
 class UserModel extends Model<IUser, UserCreationAttributes> implements IUser {
   public id!: string;
@@ -16,6 +26,7 @@ class UserModel extends Model<IUser, UserCreationAttributes> implements IUser {
   public provider_data?: Record<string, any>;
   public status!: "active" | "blocked" | "deleted";
   public secret?: string;
+  public hotp_count!: number;
   public last_login?: Date;
   public created_at!: Date;
   public updated_at!: Date;
@@ -72,6 +83,11 @@ UserModel.init(
     secret: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    hotp_count: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
     },
     last_login: {
       type: DataTypes.DATE,

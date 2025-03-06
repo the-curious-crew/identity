@@ -54,6 +54,10 @@ const UserSchema = new Schema<IUserDocument>(
     secret: {
       type: String,
     },
+    hotp_count: {
+      type: Number,
+      default: 0,
+    },
     last_login: {
       type: Date,
     },
@@ -68,7 +72,6 @@ const UserSchema = new Schema<IUserDocument>(
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
-    id: false,
   }
 );
 

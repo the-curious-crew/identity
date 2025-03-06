@@ -11,12 +11,16 @@ class UserRepository implements IBaseRepository<string> {
   }
 
   async getByEmailOrPhone(emailOrPhone: string): Promise<IUser | null> {
-    const data = await this.model.findOne({ $or: [{ email: emailOrPhone }, { phone: emailOrPhone }] });
+    const data = await this.model.findOne({
+      $or: [{ email: emailOrPhone }, { phone: emailOrPhone }],
+    });
+    console.log(data);
+
     return data ? data.toObject() : null;
   }
-    
+
   async getById(id: string): Promise<IUser | null> {
-    const data = await this.model.findById(id);
+    const data = await this.model.findOne({ id });
     return data ? data.toObject() : null;
   }
 
@@ -27,11 +31,11 @@ class UserRepository implements IBaseRepository<string> {
   }
 
   async update(id: string, data: Partial<IUser>): Promise<void> {
-    await this.model.findByIdAndUpdate(id, data);
+    await this.model.findOneAndUpdate({ id: id }, data);
   }
 
   async delete(id: string): Promise<void> {
-    await this.model.findByIdAndDelete(id);
+    await this.model.findOneAndDelete({ id });
   }
 }
 

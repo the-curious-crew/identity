@@ -4,7 +4,7 @@ import { userActivityRepository } from "../repositories/mongodb/userActivity.mon
 import { IUserActivity } from "../types/types";
 
 class UserActivityService {
-  private repository: IBaseRepository<number>;
+  private repository: typeof userActivityRepository;
 
   constructor(repository: typeof userActivityRepository) {
     this.repository = repository;

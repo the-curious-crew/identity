@@ -55,6 +55,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      hotp_count: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
       last_login: {
         type: Sequelize.DATE,
         allowNull: true,

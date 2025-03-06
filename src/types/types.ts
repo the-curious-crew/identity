@@ -11,6 +11,7 @@ export interface IUser {
   status: "active" | "blocked" | "deleted";
   last_login?: Date;
   secret?: string;
+  hotp_count: number;
   created_at: Date;
   updated_at: Date;
 }
@@ -39,7 +40,7 @@ export interface IRefreshToken {
   status: RefreshTokenStatusEnum; // Status of the token
   device_id?: string; // Unique device identifier
   device_name?: string; // Name of the device
-  device_type?: string;//"mobile" | "desktop" | "tablet"; // Type of device
+  device_type?: string; //"mobile" | "desktop" | "tablet"; // Type of device
   ip_address?: string; // IP address of the user
   user_agent?: string; // User agent string (browser, OS details)
   created_at: Date;
@@ -49,4 +50,28 @@ export enum RefreshTokenStatusEnum {
   ACTIVE = "active",
   INACTIVE = "inactive",
   REVOKED = "revoked",
+}
+
+export interface IDevice {
+  device_id: string;
+  device_type: string;
+  ip_address: string;
+  user_agent: string;
+  device_name: string;
+}
+
+export interface IAccessTokenPayload {
+  user_id: string;
+  device_id: string;
+}
+
+export interface IRefreshTokenPayload {
+  user_id: string;
+  device_id: string;
+  token_id: string;
+}
+
+export enum OTPMethodEnum {
+  AUTHENTICATOR_APP = "AUTHENTICATOR_APP",
+  OTP_MESSAGE = "OTP_MESSAGE",
 }

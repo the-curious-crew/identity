@@ -2,17 +2,19 @@ require("dotenv").config();
 import "express-async-errors";
 
 import express from "express";
-import bodyParser from "body-parser";
 import cors from "cors";
 import helmet from "helmet";
 import { router } from "./routes";
 
-import { NotFoundError } from "@shared/backend/lib/errors/NotFoundError";
-import { errorHandler } from "@shared/backend/lib/errors/errorHandler";
-import { morganMiddleware } from "@shared/backend/lib/middlewares/morgan.middleware";
-import { ipRestrictionMiddleware } from "@shared/backend/lib/middlewares/ipRestriction.middleware";
+import { NotFoundError } from "./errors/NotFoundError";
+import { errorHandler } from "./errors/errorHandler";
+import { morganMiddleware } from "./middlewares/morgan.middleware";
+import { ipRestrictionMiddleware } from "./middlewares/ipRestriction.middleware";
+import { connectDB } from "./lib/mongoose.utils";
 
 const app = express();
+
+connectDB();
 
 app.use(morganMiddleware);
 app.use(cors());
@@ -20,16 +22,12 @@ app.use(cors());
 // Apply the IP-based access control middleware to all routes
 const allowList =
   process.env.ALLOWED_IP_LIST?.split(",").map((ip) => ip.trim()) || [];
+
 app.use(ipRestrictionMiddleware(allowList));
 app.use(helmet()); // https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
 
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
-
-app.use(bodyParser.json());
+app.use(express.json()); // Parses JSON request body
+app.use(express.urlencoded({ extended: true })); // Parses URL-encoded form data
 
 // Graceful shutdown function
 function gracefulShutdown() {
