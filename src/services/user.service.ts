@@ -1,4 +1,4 @@
-import { userRepository } from "../repositories/mongodb/user.mongo.repository";
+import { userRepository } from "../repositories/sql/user.sql.repository";
 import {
   IAccessTokenPayload,
   IDevice,
@@ -11,7 +11,6 @@ import * as jwt from "jsonwebtoken";
 import { NotFoundError } from "../errors/NotFoundError";
 import { BadRequestError } from "../errors/BadRequestError";
 import { generateTokens, refreshAccessToken } from "./token.service";
-import { createHmac, randomBytes } from "crypto";
 const VALIDITY_MINUTES = 3; // OTP validity in minutes
 const otpStore = new Map<string, { otp: string; expiresAt: number }>();
 const usedOTPs = new Map<string, string>();
@@ -78,7 +77,7 @@ class UserService {
       usedOTPs.delete(key);
     }, VALIDITY_MINUTES * 60 * 1000);
 
-    return { user, accessToken, refreshToken };
+    return { accessToken, refreshToken, user: this.sanitizeUser(user) };
   }
 
   async refreshToken(
@@ -90,6 +89,11 @@ class UserService {
       device
     );
     return { accessToken, refreshToken };
+  }
+
+  private sanitizeUser(user: IUser): IUser {
+    const { secret, hotp_count, ...sanitizedUser } = user;
+    return sanitizedUser;
   }
 
   private async verifyOTP(
@@ -127,7 +131,7 @@ class UserService {
     if (!user) {
       throw new Error("User not found");
     }
-    return user;
+    return this.sanitizeUser(user);
   }
 
   private generateOtp = async (
@@ -138,7 +142,7 @@ class UserService {
       throw new Error("User secret not found");
     }
     if (method === OTPMethodEnum.OTP_MESSAGE) {
-      const updatedCount = user.hotp_count + 1;
+      const updatedCount = (user.hotp_count || 0) + 1;
       await this.repository.update(user.id, {
         hotp_count: updatedCount,
       });

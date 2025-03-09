@@ -6,10 +6,10 @@ class AuthController {
   sendOTP: RequestHandler<
     unknown,
     { sent: boolean; otp: string },
-    { emailOrPhone: string; method: OTPMethodEnum }
+    { value: string; method: OTPMethodEnum }
   > = async (req, res) => {
     const { otp } = await userService.sendOTP(
-      req.body.emailOrPhone,
+      req.body.value,
       req.body.method
     );
     res.json({ sent: true, otp }).status(200).send();
@@ -23,14 +23,14 @@ class AuthController {
       refreshToken: string;
     },
     {
-      emailOrPhone: string;
+      value: string;
       otp: string;
       device: IDevice;
       method: OTPMethodEnum;
     }
   > = async (req, res) => {
     const { accessToken, refreshToken, user } = await userService.validateOTP(
-      req.body.emailOrPhone,
+      req.body.value,
       req.body.otp,
       req.body.device,
       req.body.method

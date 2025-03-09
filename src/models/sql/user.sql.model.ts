@@ -106,7 +106,7 @@ UserModel.init(
   },
   {
     sequelize,
-    tableName: "users",
+    tableName: "identity_users",
     timestamps: true,
     updatedAt: "updated_at",
     createdAt: "created_at",

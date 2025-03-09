@@ -15,7 +15,7 @@ module.exports = {
         allowNull: false,
       },
       token: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       expires_at: {
@@ -55,7 +55,6 @@ module.exports = {
 
     // Add indexes for better query performance
     await queryInterface.addIndex("refresh_tokens", ["user_id"]);
-    await queryInterface.addIndex("refresh_tokens", ["token"]);
     await queryInterface.addIndex("refresh_tokens", ["status"]);
   },
 

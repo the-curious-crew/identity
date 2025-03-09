@@ -11,6 +11,7 @@ import { errorHandler } from "./errors/errorHandler";
 import { morganMiddleware } from "./middlewares/morgan.middleware";
 import { ipRestrictionMiddleware } from "./middlewares/ipRestriction.middleware";
 import { connectDB } from "./lib/mongoose.utils";
+import { setupSwagger } from "./swagger/swagger";
 
 const app = express();
 
@@ -50,6 +51,8 @@ process.on("SIGINT", gracefulShutdown);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+setupSwagger(app);
+
 app.use("/", router);
 
 // catch 404 and forward to error handler

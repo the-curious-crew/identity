@@ -1,6 +1,6 @@
 import { InternalServerError } from "../errors/InternalServerError";
 import { IBaseRepository } from "../repositories/IRepository";
-import { refreshTokenRepository } from "../repositories/mongodb/refreshToken.mongo.repository";
+import { refreshTokenRepository } from "../repositories/sql/refreshToken.sql.repository";
 import { IRefreshToken } from "../types/types";
 
 class RefreshTokenService {
@@ -11,51 +11,31 @@ class RefreshTokenService {
   }
 
   async getAll(): Promise<IRefreshToken[]> {
-    try {
-      const tokens = await this.repository.getAll();
-      return tokens;
-    } catch (error) {
-      throw new InternalServerError();
-    }
+    const tokens = await this.repository.getAll();
+    return tokens;
   }
 
   async getById(id: string): Promise<IRefreshToken> {
-    try {
-      const token = await this.repository.getById(id);
-      if (!token) {
-        throw new Error("Token not found");
-      }
-      return token;
-    } catch (error) {
-      throw new InternalServerError();
+    const token = await this.repository.getById(id);
+    if (!token) {
+      throw new Error("Token not found");
     }
+    return token;
   }
 
   async create(item: IRefreshToken): Promise<IRefreshToken> {
-    try {
-      const token = await this.repository.create(item);
-      return token;
-    } catch (error) {
-      throw new InternalServerError();
-    }
+    const token = await this.repository.create(item);
+    return token;
   }
 
   async update(id: string, item: Partial<IRefreshToken>): Promise<void> {
-    try {
-      await this.repository.update(id, item);
-      return;
-    } catch (error) {
-      throw new InternalServerError();
-    }
+    await this.repository.update(id, item);
+    return;
   }
 
   async delete(id: string): Promise<void> {
-    try {
-      await this.repository.delete(id);
-      return;
-    } catch (error) {
-      throw new InternalServerError();
-    }
+    await this.repository.delete(id);
+    return;
   }
 }
 

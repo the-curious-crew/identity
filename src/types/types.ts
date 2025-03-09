@@ -11,7 +11,7 @@ export interface IUser {
   status: "active" | "blocked" | "deleted";
   last_login?: Date;
   secret?: string;
-  hotp_count: number;
+  hotp_count?: number;
   created_at: Date;
   updated_at: Date;
 }

@@ -40,7 +40,7 @@ UserActivityModel.init(
   },
   {
     sequelize,
-    tableName: "user_activities",
+    tableName: "identity_user_activities",
     timestamps: false,
   }
 );

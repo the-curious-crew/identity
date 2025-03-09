@@ -1,5 +1,5 @@
 {
-  "name": "@service/identity",
+  "name": "@vv/identity",
   "version": "1.0.0",
   "main": "app.ts",
   "scripts": {
@@ -31,6 +31,8 @@
     "pino": "^9.6.0",
     "pino-http": "^10.4.0",
     "sequelize": "^6.37.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^11.1.0",
     "winston": "^3.17.0",
     "zod": "^3.24.1"
@@ -42,6 +44,8 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.7",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "concurrently": "^9.1.2",
     "nodemon": "^3.1.9",
     "sequelize-cli": "^6.6.2",

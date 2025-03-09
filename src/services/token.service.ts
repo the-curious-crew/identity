@@ -59,7 +59,6 @@ export async function refreshAccessToken(
   oldRefreshToken: string,
   device: IDevice
 ) {
-  try {
     // Decode and verify refresh token
     const decoded = jwt.verify(
       oldRefreshToken,
@@ -88,9 +87,6 @@ export async function refreshAccessToken(
     });
 
     return { accessToken, refreshToken };
-  } catch (error) {
-    throw new Error("Refresh token expired or invalid");
-  }
 }
 
 const getDeviceName = (device_name: string) => {
