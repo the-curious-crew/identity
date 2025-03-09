@@ -6,6 +6,7 @@ const options: swaggerJSDoc.Options = {
   definition: {
     basePath: `http://localhost:${process.env.PORT}`,
     host: `http://localhost:${process.env.PORT}`,
+
     openapi: "3.0.0",
     info: {
       title: "API Documentation",
@@ -18,7 +19,7 @@ const options: swaggerJSDoc.Options = {
         url: `http://localhost:${process.env.PORT}`,
       },
       {
-        name: "Tailscale",
+        name: "Remote",
         url: `${process.env.BASE_URL}`,
       },
     ],
