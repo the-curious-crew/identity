@@ -3,15 +3,19 @@ import { userService } from "../services/user.service";
 import { IUser, IDevice, OTPMethodEnum } from "../types/types";
 
 class AuthController {
+  signup: RequestHandler<unknown, IUser, { email: string }> = async (
+    req,
+    res
+  ) => {
+    const user = await userService.signup(req.body.email);
+    res.json(user);
+  };
   sendOTP: RequestHandler<
     unknown,
     { sent: boolean; otp: string },
     { value: string; method: OTPMethodEnum }
   > = async (req, res) => {
-    const { otp } = await userService.sendOTP(
-      req.body.value,
-      req.body.method
-    );
+    const { otp } = await userService.sendOTP(req.body.value, req.body.method);
     res.json({ sent: true, otp }).status(200).send();
   };
 

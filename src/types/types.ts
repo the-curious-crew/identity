@@ -8,12 +8,18 @@ export interface IUser {
   display_name?: string;
   picture?: string;
   provider_data?: Record<string, any>;
-  status: "active" | "blocked" | "deleted";
+  status: UserStatusEnum;
   last_login?: Date;
   secret?: string;
   hotp_count?: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+export enum UserStatusEnum {
+  ACTIVE = "active",
+  BLOCKED = "blocked",
+  DELETED = "deleted",
 }
 
 export interface IUserActivity {

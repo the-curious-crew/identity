@@ -23,7 +23,7 @@ class UserRepository implements IBaseRepository<string> {
     return data ? data.toJSON() : null;
   }
 
-  async create(data: IUser): Promise<IUser> {
+  async create(data: Omit<IUser, "id">): Promise<IUser> {
     const createdData = await this.model.create(data);
     return createdData.toJSON();
   }

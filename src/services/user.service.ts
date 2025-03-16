@@ -4,6 +4,7 @@ import {
   IDevice,
   IUser,
   OTPMethodEnum,
+  UserStatusEnum,
 } from "../types/types";
 import { sendOTPEmail, sendOTPPhone } from "../lib/otp";
 import { authenticator, hotp } from "otplib";
@@ -163,6 +164,17 @@ class UserService {
     }
     throw new BadRequestError("Invalid OTP method");
   };
+
+  async signup(email: string): Promise<IUser> {
+    const user = await this.repository.create({
+      username: email,
+      email_verified: false,
+      phone_verified: false,
+      status: UserStatusEnum.ACTIVE,
+      secret: authenticator.generateSecret(), // Generates a base32-encoded secret key
+    });
+    return user;
+  }
 
   async create(item: IUser): Promise<IUser> {
     const user = await this.repository.create({

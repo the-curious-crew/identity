@@ -143,4 +143,34 @@ authRouter.post("/authenticate", authController.authenticate);
  */
 authRouter.post("/refresh-token", authController.refreshToken);
 
+/**
+ * @swagger
+ * /v1/auth/signup:
+ *   post:
+ *     summary: Sign Up
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: "john.doe@example.com"
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "User created successfully"
+ */
+authRouter.post("/signup", authController.signup);
+
 export { authRouter };
