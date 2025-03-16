@@ -10,12 +10,12 @@ import { NotFoundError } from "./errors/NotFoundError";
 import { errorHandler } from "./errors/errorHandler";
 import { morganMiddleware } from "./middlewares/morgan.middleware";
 import { ipRestrictionMiddleware } from "./middlewares/ipRestriction.middleware";
-import { connectDB } from "./lib/mongoose.utils";
+// import { connectDB } from "./lib/mongoose.utils";
 import { setupSwagger } from "./swagger/swagger";
 
 const app = express();
 
-connectDB();
+// connectDB();
 
 app.use(morganMiddleware);
 app.use(cors());
