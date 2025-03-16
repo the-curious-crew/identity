@@ -23,6 +23,7 @@ export const errorHandler: ErrorRequestHandler<unknown> = (
     res.status(400).send({
       success: false,
       // locale: Locale.enUS,
+      message: err,
       errors: ["Something went wrong"],
     });
   }
