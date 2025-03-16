@@ -64,6 +64,8 @@ export interface IDevice {
   ip_address: string;
   user_agent: string;
   device_name: string;
+  os: string;
+  browser: string;
 }
 
 export interface IAccessTokenPayload {
