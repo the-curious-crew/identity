@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../../lib/sequelize.utils";
-import { IUser } from "../../types/types";
+import { IUser, UserStatusEnum } from "../../types/types";
 
 interface UserCreationAttributes
   extends Optional<
@@ -24,7 +24,7 @@ class UserModel extends Model<IUser, UserCreationAttributes> implements IUser {
   public display_name?: string;
   public picture?: string;
   public provider_data?: Record<string, any>;
-  public status!: "active" | "blocked" | "deleted";
+  public status!: UserStatusEnum;
   public secret?: string;
   public hotp_count!: number;
   public last_login?: Date;
