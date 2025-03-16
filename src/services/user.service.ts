@@ -167,6 +167,7 @@ class UserService {
 
   async signup(email: string): Promise<IUser> {
     const user = await this.repository.create({
+      email,
       username: email,
       email_verified: false,
       phone_verified: false,
