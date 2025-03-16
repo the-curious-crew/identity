@@ -159,6 +159,9 @@ authRouter.post("/refresh-token", authController.refreshToken);
  *               email:
  *                 type: string
  *                 example: "john.doe@example.com"
+ *               phone:
+ *                 type: string
+ *                 example: "9633123456"
  *     responses:
  *       201:
  *         description: User created successfully

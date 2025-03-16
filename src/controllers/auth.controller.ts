@@ -5,11 +5,11 @@ import Bowser from "bowser";
 import { v4 as uuidv4 } from "uuid";
 
 class AuthController {
-  signup: RequestHandler<unknown, IUser, { email: string }> = async (
+  signup: RequestHandler<unknown, IUser, { email: string, phone: string }> = async (
     req,
     res
   ) => {
-    const user = await userService.signup(req.body.email);
+    const user = await userService.signup(req.body.email, req.body.phone);
     res.json(user);
   };
   sendOTP: RequestHandler<

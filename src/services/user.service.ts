@@ -165,10 +165,14 @@ class UserService {
     throw new BadRequestError("Invalid OTP method");
   };
 
-  async signup(email: string): Promise<IUser> {
+  async signup(email?: string, phone?: string): Promise<IUser> {
+    if(!email && !phone) {
+      throw new BadRequestError("Email or phone is required");
+    }
     const user = await this.repository.create({
       email,
-      username: email,
+      phone,
+      username: (email || phone)!,
       email_verified: false,
       phone_verified: false,
       status: UserStatusEnum.ACTIVE,
