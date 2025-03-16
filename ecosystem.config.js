@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "vv_identity",
+      name: "tcc_identity",
       script: "npm",
       args: "start",
       cwd: __dirname, // Uses the current directory dynamically
