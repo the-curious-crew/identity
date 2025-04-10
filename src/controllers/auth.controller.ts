@@ -3,15 +3,14 @@ import { userService } from "../services/user.service";
 import { IUser, IDevice, OTPMethodEnum } from "../types/types";
 import Bowser from "bowser";
 import { v4 as uuidv4 } from "uuid";
+import { getAccessTokenExpiry, getRefreshTokenExpiry } from "../lib/utils";
 
 class AuthController {
-  signup: RequestHandler<unknown, IUser, { email: string, phone: string }> = async (
-    req,
-    res
-  ) => {
-    const user = await userService.signup(req.body.email, req.body.phone);
-    res.json(user);
-  };
+  signup: RequestHandler<unknown, IUser, { email: string; phone: string }> =
+    async (req, res) => {
+      const user = await userService.signup(req.body.email, req.body.phone);
+      res.json(user);
+    };
   sendOTP: RequestHandler<
     unknown,
     { sent: boolean; otp: string },
@@ -25,9 +24,6 @@ class AuthController {
     unknown,
     {
       user: IUser;
-      accessToken: string;
-      refreshToken: string;
-      deviceId: string;
     },
     {
       value: string;
@@ -63,7 +59,29 @@ class AuthController {
       req.body.method
     );
 
-    res.json({ user, accessToken, refreshToken, deviceId });
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: getAccessTokenExpiry() * 60 * 1000, // 15 minutes
+      domain: process.env.COOKIE_DOMAIN,
+    });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: getRefreshTokenExpiry() * 24 * 60 * 60 * 1000, // 30 days
+      domain: process.env.COOKIE_DOMAIN,
+    });
+    res.cookie("deviceId", deviceId, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: getRefreshTokenExpiry() * 24 * 60 * 60 * 1000, // 30 days
+      domain: process.env.COOKIE_DOMAIN,
+    });
+
+    res.json({ user });
   };
 
   authenticate: RequestHandler<unknown, IUser, { token: string }> = async (
